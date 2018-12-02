@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<script src="lib/vue.min.js"></script>
+	<script src="lib/lodash.min.js"></script>
+	<script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+	<script src="js/script.js"></script>
+
+	<link rel="stylesheet" href="css/styles.css">
+
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<script src="//unpkg.com/vue/dist/vue.js"></script>
+	<script src="//unpkg.com/element-ui/lib/index.js"></script>
+
+	<title>Gestionnaire restaurants VueJS</title>
+</head>
+
+<body>
+	<div id="app">
+
+		<!-- Popup modifier un restaurant -->
+		<el-dialog title="Modification restaurant" :visible.sync="visible" width="30%">
+			<span>This is a message</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="visible = false">Cancel</el-button>
+				<el-button type="primary" @click="visible = false">Confirm</el-button>
+			</span>
+		</el-dialog>
+
+		<h1>Le Guide des Resto</h1>
+
+		<input 
+			type="text" 
+			placeholder="Rechercher un restaurant..." 
+			v-on:input="chercherRestaurants" 
+			v-model="nomRecherche">
+
+		<h2>Nombre de restaurants trouvés : {{nbRestaurantsMax}}</h2>
+
+		<label>
+			<input 
+				type="range" 
+				min="5" max="100" step="5" 
+				v-model="pagesize" 
+				v-on:input="getRestaurantsFromServer">
+			{{pagesize}} restaurants par page
+		</label>
+
+		<table>
+			<tr>
+				<th><input type="text" required v-model="name"> </th>
+				<th><input type="text" required v-model="cuisine">  </th>
+				<th><button v-on:click="ajouterRestaurant">Ajouter</button></th>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<th>Cuisine </th>
+				<th>Action </th>
+			</tr>
+			<tbody>
+				<tr v-for="r,index in restaurants"    
+					v-bind:style="{backgroundColor:getColor(index)}">
+					<td>{{r.name}}</td>
+					<td> {{r.cuisine}}</td>
+					<td>
+						<button class="btn" @click="supprimerRestaurant(r)">Supprimer</button>
+						<button class="btn" @click="modifierRestaurant(r)">Modifier</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<button 
+			v-on:click="premierePage"
+			v-bind:disabled="page==0">Début</button>
+		<button 
+			v-on:click="pagePrecedente"
+			v-bind:disabled="page==0">Précédent</button>
+		<input 
+			type="number" 
+			v-model="page"
+			v-on:input="getRestaurantsFromServer"> 
+		<button 
+			v-on:click="pageSuivante"
+			v-bind:disabled="page==nbPagesMax">Suivant</button>
+		<button 
+			v-on:click="dernierePage"
+			v-bind:disabled="page==nbPagesMax">Fin</button>
+
+	</div>
+
+</body>
+</html>
