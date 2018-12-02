@@ -49,8 +49,12 @@ function init(){
 
 			ouvrirPopUp(r) {
                 this.visible = true;
-                console.log(r);
                 this.restaurantMaj = r;
+			  },
+
+			  annulerModification(){
+			  	this.visible = false;
+			  	this.getRestaurantsFromServer();
 			  },
 			  
             modifierRestaurant(){
@@ -65,17 +69,17 @@ function init(){
                     method: "PUT",
                    body:formData
                 })
-                    .then((responseJSON) =>{
-                        responseJSON.json()
-                            .then((res) => { // arrow function preserve le this
-                                // Maintenant res est un vrai objet JavaScript
-                                console.log(res)
-                              //  this.getRestaurantsFromServer(null,null)
-                            });
-                    })
-                    .catch(function (err) {
-                        console.log(err);
+                .then((responseJSON) =>{
+                    responseJSON.json()
+                    .then((res) => { // arrow function preserve le this
+                        // Maintenant res est un vrai objet JavaScript
+                        console.log(res)
+                      //  this.getRestaurantsFromServer(null,null)
                     });
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
                 this.visible = false;
 			  },
 			  
@@ -124,6 +128,11 @@ function init(){
 			},
 
 			chercherRestaurants() {
+				this.page = 0;
+				this.getRestaurantsFromServer();
+			},
+
+			changeNbRestauParPage() {
 				this.page = 0;
 				this.getRestaurantsFromServer();
 			},
