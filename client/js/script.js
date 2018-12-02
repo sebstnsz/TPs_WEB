@@ -12,7 +12,8 @@ function init(){
 			// Données récupérées :
 			restaurants: [],
 			nbRestaurantsMax: 0,
-			nbPagesMax: null,
+            nbPagesMax: null,
+            restaurantMaj:[],
 			// Formulaire d'ajout :
 			name: '',
 			cuisine: '',
@@ -46,30 +47,65 @@ function init(){
 				});
 			},
 
-			ajouterRestaurant(event) {
-				event.preventDefault();
-				let form = event.target;
-				let data = new FormData(form);
-				let url = "http://localhost:8080/api/restaurants";
-				fetch(url, {
-					method: "POST",
-					body: data
-				})
-				.then((responseJSON) => {
-					responseJSON.json()
-					.then((res) => {
-						console.log("Ajout du restaurant");
-						this.getRestaurantsFromServer();
-					});
-				})
-				.catch(function (err) {
-					console.log(err);
-				});
-
-				this.name = '';
-				this.cuisine= '';  
-			},
-
+			ouvrirPopUp(r) {
+                this.visible = true;
+                console.log(r);
+                this.restaurantMaj = r;
+			  },
+			  
+            modifierRestaurant(){
+                let url = "http://localhost:8080/api/restaurants/"+this.restaurantMaj._id;
+                console.log(this.restaurantMaj.name);
+                let formData = new FormData();
+                formData.append('_id', this.restaurantMaj._id);
+                formData.append('nom', this.restaurantMaj.name);
+                formData.append('cuisine', this.restaurantMaj.cuisine);
+        
+                fetch(url, {
+                    method: "PUT",
+                   body:formData
+                })
+                    .then((responseJSON) =>{
+                        responseJSON.json()
+                            .then((res) => { // arrow function preserve le this
+                                // Maintenant res est un vrai objet JavaScript
+                                console.log(res)
+                              //  this.getRestaurantsFromServer(null,null)
+                            });
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+                this.visible = false;
+			  },
+			  
+            ajouterRestaurant() {
+                let formData = new FormData();
+                formData.append('nom', this.name);
+                formData.append('cuisine', this.cuisine);
+        
+                let url = "http://localhost:8080/api/restaurants";
+        
+                fetch(url, {
+                    method: "POST",
+                    body: formData
+                })
+                    .then((responseJSON) =>{
+                        responseJSON.json()
+                            .then((res) => { // arrow function preserve le this
+                                // Maintenant res est un vrai objet JavaScript
+                                console.log("ajouter")
+                                this.getRestaurantsFromServer(null,null)
+                            });
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+        
+                    this.name = '';
+                    this.cuisine= '';  
+			  },        
+			  
 			supprimerRestaurant(r) {
 				let url = "http://localhost:8080/api/restaurants/"+r._id;
 				fetch(url, {
@@ -85,11 +121,6 @@ function init(){
 				.catch(function (err) {
 					console.log(err);
 				});
-			},
-
-			modifierRestaurant(r) {
-				this.visible = true;
-				console.log("Modification: "+r._id);
 			},
 
 			chercherRestaurants() {
