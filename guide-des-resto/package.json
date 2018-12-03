@@ -1,8 +1,8 @@
 {
-  "name": "my-app-vue-cli1",
+  "name": "guide-des-resto",
   "description": "A Vue.js project",
   "version": "1.0.0",
-  "author": "Sébastien SAEZ",
+  "author": "Alexandra Robin",
   "license": "MIT",
   "private": true,
   "scripts": {

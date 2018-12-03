@@ -1,4 +1,4 @@
-# my-app-vue-cli1
+# guide-des-resto
 
 > A Vue.js project
 
