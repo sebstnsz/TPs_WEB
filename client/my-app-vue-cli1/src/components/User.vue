@@ -2,6 +2,7 @@
 	<div id="user">
 		<h3>Utilisateur</h3>
 		<p>Mon nom est {{userName}}</p>
+		<app-info></app-info>
 	</div>
 </template>
 

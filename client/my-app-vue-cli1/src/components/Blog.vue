@@ -1,7 +1,7 @@
 <template>
 	<div id="user">
-		<h3>Info Utilisateur</h3>
-		<p>Mon adresse est {{adresse}}</p>
+		<h3>Blog</h3>
+		<p>Lien : {{blog}}</p>
 	</div>
 </template>
 
@@ -10,7 +10,7 @@
 export default {
 	data() {
 		return {
-			adresse : 'titi' 
+			blog : 'test' 
 		}
 	}
 }
@@ -19,6 +19,6 @@ export default {
 <style scoped>
 	p {
 		font-style: italic;
-		color:green; 
+		color:red; 
 	}
 </style>

@@ -1,10 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <app-user></app-user>
+    Hello {{msg}}
+
+    <div>
+      <router-link to="/">Home</router-link>
+      <router-link to="/blog">Blog</router-link>
+      <router-link to="/compte">compte</router-link>
+    </div>
+
+    <router-view></router-view>
+      <p>Ceci est un test</p>
   </div>
 </template>
+
 
 <script>
 export default {
