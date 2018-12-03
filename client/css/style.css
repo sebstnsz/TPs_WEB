@@ -1,0 +1,104 @@
+body {
+	font-family: Helvetica Neue, Arial, sans-serif;
+	font-size: 14px;
+	color: #444;
+}
+
+h1 {
+	margin-bottom: 50px;
+}
+
+h2 {
+	font-size: medium;
+	margin: 20px 0px;
+}
+
+el-input {
+	max-width: 200px;
+	/*min-width: 100%;*/
+}
+
+input[type=range] {
+	margin: 10px 0px;
+}
+
+input[type=number] {
+	width: 50px;
+	text-align: center;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+ 
+/*input:invalid{
+	background-color:pink
+}
+input:valid{
+	background-color:white
+}*/
+ 
+table {
+	border-radius: 3px;
+	background-color: #fff;
+	margin: 20px 0px;
+}
+ 
+tr:nth-child(2) th{ 
+	background-color: #444444;
+	width: 400px;
+	min-width: 100%;
+	color: white;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+tr:nth-child(1) th{
+	background-color: #f5f5f5;
+	width: 400px;
+	min-width: 100%;
+	color: white;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+tr th:nth-child(3) {
+	width: 90px;
+}
+
+el-button-group {
+	margin: auto;
+}
+ 
+th, td {
+	padding: 10px 20px;
+}
+ 
+th.active {
+	color: #fff;
+}
+
+th.active .arrow {
+	opacity: 1;
+}
+
+/*.btn{
+	margin:auto;
+	display:block;
+	width: 100px;
+}*/
+
+tfoot el-row {
+	display: inline;
+} 
+
+#popup label input {
+	margin: 10px 0px;
+}

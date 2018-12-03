@@ -9,11 +9,12 @@
 	<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 	<script src="js/script.js"></script>
 
-	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/style.css">
 
 	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 	<script src="//unpkg.com/vue/dist/vue.js"></script>
 	<script src="//unpkg.com/element-ui/lib/index.js"></script>
+	<script src="//unpkg.com/element-ui@2.4.11/lib/index.js"></script>
 
 	<title>Gestionnaire restaurants VueJS</title>
 </head>
@@ -21,7 +22,7 @@
 <body>
 	<div id="app">
 
-			<el-dialog title="Modification du restaurant" :visible.sync="visible" width="30%">
+		<el-dialog id="popup" title="Modification du restaurant" :visible.sync="visible" width="30%">
 			<label>
 				Nom : 
 				<input type="text" required v-model="restaurantMaj.name">
@@ -34,15 +35,17 @@
 				<el-button type="primary" @click="modifierRestaurant()">Valider</el-button>
 				<el-button @click="annulerModification">Annuler</el-button>
 			</span>
-		  </el-dialog>
+		</el-dialog>
 	
 		<h1>Le Guide des Resto</h1>
 
-		<input 
-			type="text" 
+		<el-input
+			prefix-icon="el-icon-search"
 			placeholder="Rechercher un restaurant..." 
 			v-on:input="chercherRestaurants" 
-			v-model="nomRecherche">
+			v-model="nomRecherche"
+			clearable>
+		</el-input>
 
 		<h2>Nombre de restaurants trouvés : {{nbRestaurantsMax}}</h2>
 
@@ -56,45 +59,92 @@
 		</label>
 
 		<table>
-			<tr>
-				<th><input type="text" required v-model="name"> </th>
-				<th><input type="text" required v-model="cuisine">  </th>
-				<th><button v-on:click="ajouterRestaurant">Ajouter</button></th>
-			</tr>
-			<tr>
-				<th>Nom</th>
-				<th>Cuisine </th>
-				<th>Action </th>
-			</tr>
+			<thead>
+				<tr>
+					<th>
+						<el-input class="inputModif" type="text" required clearable v-model="name"></el-input>
+					</th>
+					<th>
+						<el-input class="inputModif" type="text" required clearable v-model="cuisine"></el-input>
+					</th>
+					<th>
+						<el-tooltip content="Ajouter" placement="top">
+							<el-button 
+								icon="el-icon-plus"
+								size="small"
+								v-on:click="ajouterRestaurant">
+							</el-button>
+						</el-tooltip>
+					</th>
+				</tr>
+				<tr>
+					<th>Nom</th>
+					<th>Cuisine </th>
+					<th>Action </th>
+				</tr>
+			</thead>
 			<tbody>
 				<tr v-for="r,index in restaurants"    
 					v-bind:style="{backgroundColor:getColor(index)}">
 					<td>{{r.name}}</td>
 					<td> {{r.cuisine}}</td>
-					<td>
-						<button class="btn" @click="supprimerRestaurant(r)">Supprimer</button>
-						<button class="btn" @click="ouvrirPopUp(r)">Modifier</button>
-					</td>
+					<td><el-button-group>
+						<el-tooltip content="Modifier" placement="top">
+							<el-button 
+								class="btn"
+								size="small"
+								icon="el-icon-edit"
+								@click="ouvrirPopUp(r)">
+							</el-button>
+						</el-tooltip>
+						<el-tooltip content="Supprimer" placement="top">
+							<el-button 	
+								class="btn" 
+								size="small"
+								icon="el-icon-close"
+								@click="supprimerRestaurant(r)">
+							</el-button>
+						</el-tooltip>
+					</el-button-group></td>
 				</tr>
 			</tbody>
+			<tfoot>
+				<tr><td colspan="3">
+					<el-row>
+						<el-button-group>
+							<el-button  
+								icon="el-icon-d-arrow-left"
+								size="small"
+								v-on:click="premierePage"
+								v-bind:disabled="page==0"></el-button>
+							<el-button 
+								icon="el-icon-arrow-left"
+								size="small"
+								v-on:click="pagePrecedente"
+								v-bind:disabled="page==0"></el-button>
+						</el-button-group>
+						<input 
+							type="number" 
+							v-model="page"
+							v-on:input="getRestaurantsFromServer">
+						<el-button-group>
+							<el-button 
+								icon="el-icon-arrow-right"
+								size="small"
+								v-on:click="pageSuivante"
+								v-bind:disabled="page==nbPagesMax"></el-button>
+							<el-button 
+								icon="el-icon-d-arrow-right"
+								size="small"
+								v-on:click="dernierePage"
+								v-bind:disabled="page==nbPagesMax"></el-button>
+						</el-button-group>
+					</el-row>
+				</td></tr>
+			</tfoot>
 		</table>
 
-		<button 
-			v-on:click="premierePage"
-			v-bind:disabled="page==0">Début</button>
-		<button 
-			v-on:click="pagePrecedente"
-			v-bind:disabled="page==0">Précédent</button>
-		<input 
-			type="number" 
-			v-model="page"
-			v-on:input="getRestaurantsFromServer"> 
-		<button 
-			v-on:click="pageSuivante"
-			v-bind:disabled="page==nbPagesMax">Suivant</button>
-		<button 
-			v-on:click="dernierePage"
-			v-bind:disabled="page==nbPagesMax">Fin</button>
+		
 
 	</div>
 
