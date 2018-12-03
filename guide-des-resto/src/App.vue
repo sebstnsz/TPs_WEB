@@ -1,16 +1,23 @@
 <template>
 	<div id="app">
 		<h1>Le Guide des Resto</h1>
+		<app-table></app-table>
 	</div>
 </template>
 
 <script>
+
+import Table from './components/Table.vue';
+
 export default {
 	name: 'app',
 	data () {
 		return {
 			msg: 'Welcome to Your Vue.js App'
 		}
+	},
+	components: {
+		'app-table': Table
 	}
 }
 </script>
