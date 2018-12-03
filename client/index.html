@@ -25,11 +25,11 @@
 		<el-dialog id="popup" title="Modification du restaurant" :visible.sync="visible" width="30%">
 			<label>
 				Nom : 
-				<input type="text" required v-model="restaurantMaj.name">
+				<el-input type="text" required v-model="restaurantMaj.name"></el-input>
 			</label></br>
 			<label>
 				Cuisine : 
-				<input type="text" required v-model="restaurantMaj.cuisine">
+				<el-input type="text" required v-model="restaurantMaj.cuisine"></el-input>
 			</label></br>
 			<span slot="footer" class="dialog-footer">
 				<el-button type="primary" @click="modifierRestaurant()">Valider</el-button>
@@ -116,12 +116,12 @@
 								icon="el-icon-d-arrow-left"
 								size="small"
 								v-on:click="premierePage"
-								v-bind:disabled="page==0"></el-button>
+								v-bind:disabled="page<=0"></el-button>
 							<el-button 
 								icon="el-icon-arrow-left"
 								size="small"
 								v-on:click="pagePrecedente"
-								v-bind:disabled="page==0"></el-button>
+								v-bind:disabled="page<=0"></el-button>
 						</el-button-group>
 						<input 
 							type="number" 
@@ -132,12 +132,12 @@
 								icon="el-icon-arrow-right"
 								size="small"
 								v-on:click="pageSuivante"
-								v-bind:disabled="page==nbPagesMax"></el-button>
+								v-bind:disabled="page>=nbPagesMax"></el-button>
 							<el-button 
 								icon="el-icon-d-arrow-right"
 								size="small"
 								v-on:click="dernierePage"
-								v-bind:disabled="page==nbPagesMax"></el-button>
+								v-bind:disabled="page>=nbPagesMax"></el-button>
 						</el-button-group>
 					</el-row>
 				</td></tr>
