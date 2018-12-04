@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Button, Input, InputNumber, Icon, ButtonGroup, Row, Col, Pagination } from 'element-ui';
+import { Button, Input, InputNumber, Icon, ButtonGroup, Row, Col, Pagination, Table, TableColumn, Tooltip } from 'element-ui';
 import App from './App.vue';
 
 Vue.use(Button);
@@ -10,6 +10,9 @@ Vue.use(ButtonGroup);
 Vue.use(Row);
 Vue.use(Col);
 Vue.use(Pagination);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Tooltip);
 
 new Vue({
   el: '#app',
