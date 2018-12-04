@@ -1,6 +1,12 @@
 <template>
 	<div id="recherche">
-		<p>Input Recherche</p>
+		<el-input
+			prefix-icon="el-icon-search"
+			placeholder="Rechercher un restaurant..." 
+			v-on:input="chercherRestaurants" 
+			v-model="nomRecherche"
+			clearable>
+		</el-input>
 	</div>
 </template>
 
@@ -10,9 +16,18 @@ export default {
 
 	data() {
 		return {
+			nomRecherche: ""
 		}
 	},
 	components: { 	// LOCAL COMPONENTS
+	},
+	methods: {
+		chercherRestaurants() {
+			console.log("Recherche de restaurants... " + this.nomRecherche);
+			
+			/*this.page = 0;
+			this.getRestaurantsFromServer();*/
+		}
 	}
 }
 </script>
