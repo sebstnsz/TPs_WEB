@@ -22,8 +22,7 @@
 					size="small"
 					:min="0"
 					:max="nbPagesMax"
-					v-model="page"
-					v-on:input="getRestaurantsFromServer">
+					v-model="page">
 				</el-input-number>
 			</el-col>
 			<el-col>
@@ -66,31 +65,30 @@ export default {
 	components: { 	// LOCAL COMPONENTS
 	},
 	methods: {
-		getRestaurantsFromServer(){
-			console.log("Get restaurants");
-		},
+
+	
 		pagePrecedente(){
 			if(this.page > 0){
 				this.page--;
-				this.getRestaurantsFromServer();
+				this.$emit('changePage', this.page);
 			}
 		},
 
 		pageSuivante(){
 			if(this.page < this.nbPagesMax){
 				this.page++;
-				this.getRestaurantsFromServer();
+				this.$emit('changePage', this.page);
 			}
 		},
 
 		premierePage(){
 			this.page = 0;
-			this.getRestaurantsFromServer();
+			//this.getRestaurantsFromServer();
 		},
 
 		dernierePage(){
 			this.page = this.nbPagesMax;
-			this.getRestaurantsFromServer();
+			//this.getRestaurantsFromServer();
 		}
 	}
 }
