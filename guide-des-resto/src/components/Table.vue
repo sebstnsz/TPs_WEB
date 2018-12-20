@@ -2,7 +2,7 @@
     <div id="table">
         <app-popup 
         :dialogVisible="openDialog"
-        :restaurantSelected="restaurantToUpdate" v-on:fermerPopUpChild="fermerPopUp"></app-popup>
+        :restaurantSelected="restaurantDetails" v-on:fermerPopUpChild="fermerPopUp"></app-popup>
         <app-recherche></app-recherche>
 
         <el-table
@@ -56,23 +56,11 @@ export default {
 
     data() {
         return {
-            restaurants: [
-                {
-                    name: "Baïla Pizza",
-                    cuisine: "Pizza/Italienne"
-                }, {
-                    name: "Memphis Coffee",
-                    cuisine: "Burgers/Américaine"
-                }, {
-                    name: "Sushi Shop",
-                    cuisine: "Japonaise"
-                }, {
-                    name: "Big Fernand",
-                    cuisine: "Burgers"
-                }
-            ],
-            restaurantToUpdate: [],
+            restaurants: [],
+            restaurantDetails: [],
             openDialog :false,
+            nbRestaurantsMax : 0,
+            nbPagesMax:0,
         }
     },
     components: {   // LOCAL COMPONENTS
@@ -80,6 +68,13 @@ export default {
         'app-recherche': Recherche,
         'app-pagination': Pagination
     }, 
+    created: function(){
+    this.getRestaurantsFromServer();
+
+    },
+    mounted:function(){
+
+    },
     methods: {
         ouvrirPopUp() {
             this.openDialog = true;
@@ -93,11 +88,30 @@ export default {
             console.log("Supprimer le restaurant");
         },
         handleCurrentChange(val) {
-            this.restaurantToUpdate = val;
+            this.restaurantDetails = val;
         },
         onChildClick (value) {
             console.log("nb :" + value);
-        }
+        },			
+        getRestaurantsFromServer(){
+                let page = 0;
+                let pagesize = 10;
+
+				let url = "http://localhost:8080/api/restaurants?page="+page+"&pagesize="+pagesize;
+                //if (this.nomRecherche !== "") url += "&name="+this.nomRecherche;
+                
+				console.log("Get restaurants from "+url);
+
+				fetch(url)
+				.then((responseJSON) => responseJSON.json())
+				.then((responseJS) => {
+					this.restaurants = responseJS.data;
+					this.nbRestaurantsMax = responseJS.count;
+					this.nbPagesMax = Math.floor(this.nbRestaurantsMax/pagesize);
+					if (this.nbRestaurantsMax%pagesize == 0)
+						this.nbPagesMax--;
+				});
+			},
 }
  
     }
