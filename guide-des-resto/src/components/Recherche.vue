@@ -23,8 +23,8 @@ export default {
 	},
 	methods: {
 		chercherRestaurants() {
-			console.log("Recherche de restaurants... " + this.nomRecherche);
-			
+			//console.log("Recherche de restaurants... " + this.nomRecherche);
+			 this.$emit('rechercherRestaurant', this.nomRecherche);
 			/*this.page = 0;
 			this.getRestaurantsFromServer();*/
 		}

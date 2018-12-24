@@ -3,7 +3,7 @@
         <app-popup 
         :dialogVisible="openDialog"
         :restaurantSelected="restaurantDetails" v-on:fermerPopUpChild="fermerPopUp"></app-popup>
-        <app-recherche></app-recherche>
+        <app-recherche v-on:rechercherRestaurant="getRestaurantsFromServer"></app-recherche>
 
         <el-table
             :data="restaurants"
@@ -78,30 +78,30 @@ export default {
     methods: {
         ouvrirPopUp() {
             this.openDialog = true;
-                console.log("methode : ouvrirPopUp");
         },
         fermerPopUp(boolean){
             this.openDialog = boolean;
-            console.log("methode : fermerPopUp");
         },
         supprimerRestaurant(r) {
             console.log("Supprimer le restaurant");
         },
         handleCurrentChange(val) {
-            this.restaurantDetails = val;
+            if(val !== null){
+                this.restaurantDetails = val;
+            }
         },
         onChildClick (value) {
             console.log("nb :" + value);
         },			
-        getRestaurantsFromServer(){
+        getRestaurantsFromServer(nomRestau){
                 let page = 0;
                 let pagesize = 10;
-
-				let url = "http://localhost:8080/api/restaurants?page="+page+"&pagesize="+pagesize;
-                //if (this.nomRecherche !== "") url += "&name="+this.nomRecherche;
+                let url = "http://localhost:8080/api/restaurants?page="+page+"&pagesize="+pagesize;
                 
-				console.log("Get restaurants from "+url);
-
+                if (nomRestau !== "" && nomRestau !== null && nomRestau !== undefined){
+                    url += "&name="+nomRestau;
+                }
+                
 				fetch(url)
 				.then((responseJSON) => responseJSON.json())
 				.then((responseJS) => {
