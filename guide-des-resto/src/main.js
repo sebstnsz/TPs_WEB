@@ -1,6 +1,11 @@
 import Vue from 'vue';
 import { Button, Input, InputNumber, Icon, ButtonGroup, Row, Col, Pagination, Table, TableColumn, Tooltip,Dialog } from 'element-ui';
 import App from './App.vue';
+import 'here-js-api/scripts/mapsjs-core';
+import 'here-js-api/scripts/mapsjs-service';
+import 'here-js-api/scripts/mapsjs-ui';
+import 'here-js-api/scripts/mapsjs-mapevents';
+import 'here-js-api/scripts/mapsjs-clustering';
 
 Vue.use(Button);
 Vue.use(Input);
