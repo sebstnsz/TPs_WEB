@@ -8,7 +8,7 @@
 			v-on:open="onOpenPopup">
 
 			<el-tabs v-model="activeName">
-				<el-tab-pane name="first">
+				<el-tab-pane name="info">
 					<span slot="label"><i class="el-icon-info"></i> Info</span>
 
 					<el-table :data="infoData" style="width: 100%">
@@ -41,64 +41,15 @@
 					</el-table>
 				</el-tab-pane>
 
-				<el-tab-pane name="second">
+				<el-tab-pane name="map">
 					<span slot="label"><i class="el-icon-location-outline"></i> Map</span>
 					<div ref="map" v-bind:style="{ width: '100%', height: '400px' }"></div>
 				</el-tab-pane>
 
-				<el-tab-pane name="third">
+				<el-tab-pane name="menu">
 					<span slot="label"><i class="el-icon-tickets"></i> Menu</span>
 
-					<h3 class="menuCategory">Entrées</h3>
-					<el-row type="flex">
-						<el-col :span="5" v-for="(entree,i) in menu.entrees" :key="i">
-							<el-card :body-style="cardBodyStyle" shadow="hover">
-								<img :src="entree.image" class="image">
-								<div class="cardBody">
-									<span class="cardName">{{entree.nom}}</span>
-									<div class="cardDescription bottom clearfix">{{entree.description}}</div>
-								</div>
-								<el-row class="cardFoot" type="flex" justify="space-between">
-									<span class="prix">${{entree.prix}}</span>
-									<el-button type="text" class="button" icon="el-icon-circle-plus">Commander</el-button>
-								</el-row>
-							</el-card>
-						</el-col>
-					</el-row>
-
-					<h3 class="menuCategory">Plats</h3>
-					<el-row type="flex">
-						<el-col :span="5" v-for="(plat,i) in menu.plats" :key="i">
-							<el-card :body-style="cardBodyStyle" shadow="hover">
-								<img :src="plat.image" class="image">
-								<div class="cardBody">
-									<span class="cardName">{{plat.nom}}</span>
-									<div class="cardDescription bottom clearfix">{{plat.description}}</div>
-								</div>
-								<el-row class="cardFoot" type="flex" justify="space-between">
-									<span class="prix">${{plat.prix}}</span>
-									<el-button type="text" class="button" icon="el-icon-circle-plus">Commander</el-button>
-								</el-row>
-							</el-card>
-						</el-col>
-					</el-row>
-
-					<h3 class="menuCategory">Desserts</h3>
-					<el-row type="flex">
-						<el-col :span="5" v-for="(dessert,i) in menu.desserts" :key="i">
-							<el-card :body-style="cardBodyStyle" shadow="hover">
-								<img :src="dessert.image" class="image">
-								<div class="cardBody">
-									<span class="cardName">{{dessert.nom}}</span>
-									<div class="cardDescription bottom clearfix">{{dessert.description}}</div>
-								</div>
-								<el-row class="cardFoot" type="flex" justify="space-between">
-									<span class="prix">${{dessert.prix}}</span>
-									<el-button type="text" class="button" icon="el-icon-circle-plus">Commander</el-button>
-								</el-row>
-							</el-card>
-						</el-col>
-					</el-row>
+					<app-menu-restaurant :menuRestau="menu"></app-menu-restaurant>
 
 				</el-tab-pane>
 
@@ -112,13 +63,14 @@
 
 import TableVue from './Table.vue';
 import PaginationVue from './Pagination.vue';
+import MenuRestaurant from './MenuRestaurant.vue';
 
 var Menu = require('../data.js');
 
 export default {
 	data() {
 		return {
-			activeName: 'first',
+			activeName: 'info',
 			infoData: [{
 				name:"",
 				data:""
@@ -132,16 +84,15 @@ export default {
 			map: {},
 			platform: {},
 			ui:{},
-			cardBodyStyle: { 
-				padding: '0px', 
-				margin: '0px' 
-			},
 			menu: {
 				entrees: [],
 				plats: [],
 				desserts: []
 			}
 		};
+	},
+	components:{
+		'app-menu-restaurant': MenuRestaurant
 	},
 	props:{
 		restaurantSelected: {
