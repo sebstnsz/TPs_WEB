@@ -31,7 +31,7 @@
 							<template slot-scope="scope">
 								<el-rate
 									v-model="scope.row.grade"
-									:max="3"
+									:max="2"
 									disabled
 									show-score
 									:score-template="scope.row.gradeABC">
@@ -43,7 +43,6 @@
 
 				<el-tab-pane name="second">
 					<span slot="label"><i class="el-icon-location-outline"></i> Map</span>
-					<!--<div id="map" ref="map"></div>-->
 					<div ref="map" v-bind:style="{ width: '100%', height: '400px' }"></div>
 				</el-tab-pane>
 
@@ -52,7 +51,7 @@
 
 					<h3 class="menuCategory">Entrées</h3>
 					<el-row type="flex">
-						<el-col :span="5" v-for="entree, index in menu.entrees">
+						<el-col :span="5" v-for="(entree,i) in menu.entrees" :key="i">
 							<el-card :body-style="cardBodyStyle" shadow="hover">
 								<img :src="entree.image" class="image">
 								<div class="cardBody">
@@ -69,7 +68,7 @@
 
 					<h3 class="menuCategory">Plats</h3>
 					<el-row type="flex">
-						<el-col :span="5" v-for="plat, index in menu.plats">
+						<el-col :span="5" v-for="(plat,i) in menu.plats" :key="i">
 							<el-card :body-style="cardBodyStyle" shadow="hover">
 								<img :src="plat.image" class="image">
 								<div class="cardBody">
@@ -86,7 +85,7 @@
 
 					<h3 class="menuCategory">Desserts</h3>
 					<el-row type="flex">
-						<el-col :span="5" v-for="dessert, index in menu.desserts">
+						<el-col :span="5" v-for="(dessert,i) in menu.desserts" :key="i">
 							<el-card :body-style="cardBodyStyle" shadow="hover">
 								<img :src="dessert.image" class="image">
 								<div class="cardBody">
@@ -161,6 +160,13 @@ export default {
 	updated(){
 		if(this.dialogVisible){
 
+			if(this.$refs.map.childNodes.length > 0){
+				for(let i = 0; i<this.$refs.map.childNodes.length;i++ ){
+					this.$refs.map.removeChild(this.$refs.map.childNodes[i]);
+				}
+				
+			}
+
 			if(this.restaurantSelected.address != null){
 				let lat = this.restaurantSelected.address.coord[1];
 				let lng = this.restaurantSelected.address.coord[0];
@@ -188,60 +194,78 @@ export default {
 	methods: {
 		fermerPopUp(){
 			// dialogVisible = false
-			if(this.$refs.map.childNodes.length > 0){
-				this.$refs.map.removeChild(this.$refs.map.childNodes[0]);
-			}
 			this.$emit('fermerPopUpChild', false);
 			this.activeName = 'first';
 		},
 		onOpenPopup(){
+			this.getRestauDetail();
+			// générer map ?
+			this.menu = Menu.genererMenu(3);
+		},
+		getRestauDetail(){
+			let restauDetail = [];
+			let gradeData = [];
+
+			restauDetail.push({
+				name: "Cuisine",
+				value: (this.restaurantSelected.cuisine) ? this.restaurantSelected.cuisine : ""
+			});
+			restauDetail.push({
+				name: "Quartier",
+				value: (this.restaurantSelected.borough) ? this.restaurantSelected.borough : ""
+			});
 			let adresse = this.restaurantSelected.address;
-			let graduation = this.restaurantSelected.grades;
-			this.infoData = [
-				{
-					name: "Cuisine",
-					value: this.restaurantSelected.cuisine
-				},{
-					name: "Quartier",
-					value: this.restaurantSelected.borough
-				},{
-					name: "Adresse",
-					value: adresse.building + " " + adresse.street + ", " + adresse.zipcode
+			if(adresse){
+				let adresseValue = "";
+				if(adresse.building){
+					adresseValue += adresse.building + " ";
 				}
-			];
-			this.gradeData = [];
-			for(let g of graduation){
-				let gradeInt = 0;
-				switch(g.grade){
-					case 'A':
-						gradeInt = 3;
-						break;
-					case 'B':
-						gradeInt = 1.5;
-						break;
-					default:
-						gradeInt = 0;
-				};
-				this.gradeData.push({
-					date: g.date.slice(0,10),
-					grade: gradeInt,
-					gradeABC: g.grade,
-					score: g.score
+				if(adresse.street){
+					adresseValue += adresse.street;
+					if(adresse.zipcode){
+						adresseValue += ", " + adresse.zipcode;
+					}
+				} else if(adresse.zipcode){
+					adresseValue += adresse.zipcode;
+				}
+				restauDetail.push({
+					name: "Adresse",
+					value: adresseValue
 				});
 			}
 
-			this.menu = Menu.genererMenu(3);
+			if(this.restaurantSelected.grades.length > 0){
+				let graduation = this.restaurantSelected.grades;
+				for(let g of graduation){
+					let gradeInt = 0;
+					try {
+						switch(g.grade){
+							case 'A':
+								gradeInt = 2;
+								break;
+							case 'B':
+								gradeInt = 1;
+								break;
+						};
+					}
+					catch(e) {}
+					gradeData.push({
+						date: (g.date) ? g.date.slice(0,10) : "No date",
+						grade: gradeInt,
+						gradeABC: (g.grade) ? g.grade : "No grade",
+						score: (g.score) ? g.score : "No score"
+					});
+				}
+			}
+
+			this.infoData = restauDetail;
+			this.gradeData = gradeData;
 		}
 	}
   };
 </script>
 
 <style>
-#map { 
-	width: '100%';
-	height: '500px';
-}
-
 .menuCategory {
 	text-align: left;
 }
