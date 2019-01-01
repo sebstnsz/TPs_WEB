@@ -1,14 +1,17 @@
 <template>
 	<div id="menu-restaurant">
 
-		<h3 class="menuCategory">Entrées</h3>
-		<app-entree-menu :entrees="menuRestau.entrees"></app-entree-menu>
-
-		<h3 class="menuCategory">Plats</h3>
-		<app-plat-menu :plats="menuRestau.plats"></app-plat-menu>
-
-		<h3 class="menuCategory">Desserts</h3>
-		<app-dessert-menu :desserts="menuRestau.desserts"></app-dessert-menu>
+		<el-collapse v-model="activeName" accordion>
+			<el-collapse-item title="Entrées" name="entrees">
+				<app-entree-menu :entrees="menuRestau.entrees"></app-entree-menu>
+			</el-collapse-item>
+			<el-collapse-item title="Plats" name="plats">
+				<app-plat-menu :plats="menuRestau.plats"></app-plat-menu>
+			</el-collapse-item>
+			<el-collapse-item title="Desserts" name="desserts">
+				<app-dessert-menu :desserts="menuRestau.desserts"></app-dessert-menu>
+			</el-collapse-item>
+		</el-collapse>
 
 	</div>
 </template>
@@ -21,7 +24,9 @@ import MenuDessert from './MenuDessert.vue';
 
 export default {
 	data() {
-		return {}
+		return {
+			activeName: ""
+		}
 	},
 	props: {
 		menuRestau: {
@@ -40,3 +45,40 @@ export default {
 }
 
 </script>
+
+<style>
+
+.image {
+	width: 100%;
+	height: 150px;
+	display: block;
+}
+
+.cardName {
+	height: 2em;
+}
+
+.cardBody {
+	padding: 5px;
+}
+
+.cardDescription {
+	font-size: 12px;
+	color: #999;
+	text-align: left;
+	height: 4em;
+}
+
+.cardFoot {
+	padding: 5px;
+	float: bottom;
+}
+
+.prix {
+	color: green;
+}
+
+.commandeButton {
+	padding: 0;
+}
+</style>

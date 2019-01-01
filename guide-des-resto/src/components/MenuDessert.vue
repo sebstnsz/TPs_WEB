@@ -5,13 +5,11 @@
 			<el-col :span="5" v-for="(dessert,i) in desserts" :key="i">
 				<el-card :body-style="cardBodyStyle" shadow="hover">
 					<img :src="dessert.image" class="image">
-					<div class="cardBody">
-						<span class="cardName">{{dessert.nom}}</span>
-						<div class="cardDescription bottom clearfix">{{dessert.description}}</div>
-					</div>
+					<div class="cardName cardBody">{{dessert.nom}}</div>
+					<div class="cardDescription cardBody">{{dessert.description}}</div>
 					<el-row class="cardFoot" type="flex" justify="space-between">
 						<span class="prix">${{dessert.prix}}</span>
-						<el-button type="text" class="button" icon="el-icon-circle-plus">Commander</el-button>
+						<el-button type="text" class="commandeButton" icon="el-icon-circle-plus">Commander</el-button>
 					</el-row>
 				</el-card>
 			</el-col>

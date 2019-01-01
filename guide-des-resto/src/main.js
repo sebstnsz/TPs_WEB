@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Button, Input, InputNumber, Icon, ButtonGroup, Row, Col, Pagination, Table, TableColumn, Tooltip, Dialog, Tabs, TabPane, Rate, Card } from 'element-ui';
+import { Button, Input, InputNumber, Icon, ButtonGroup, Row, Col, Pagination, Table, TableColumn, Tooltip, Dialog, Tabs, TabPane, Rate, Card, Collapse, CollapseItem } from 'element-ui';
 import App from './App.vue';
 import 'here-js-api/scripts/mapsjs-core';
 import 'here-js-api/scripts/mapsjs-service';
@@ -23,6 +23,8 @@ Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Rate);
 Vue.use(Card);
+Vue.use(Collapse);
+Vue.use(CollapseItem);
 
 new Vue({
   el: '#app',

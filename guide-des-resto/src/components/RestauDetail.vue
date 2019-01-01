@@ -19,24 +19,32 @@
 					</el-table>
 
 					<el-table 
-						label="Notation"
 						:data="gradeData" 
 						style="width: 100%">
-						<el-table-column 
-							label="Date"
-							prop="date">
-						</el-table-column>
-						<el-table-column 
-							label="Note">
-							<template slot-scope="scope">
-								<el-rate
-									v-model="scope.row.grade"
-									:max="2"
-									disabled
-									show-score
-									:score-template="scope.row.gradeABC">
-								</el-rate>
-							</template>
+						<el-table-column
+							label="Notation">
+							<el-table-column 
+								label="Date"
+								prop="date">
+							</el-table-column>
+							<el-table-column 
+								label="Grade">
+								<template slot-scope="scope">
+									<el-rate
+										v-model="scope.row.grade"
+										:max="2"
+										disabled
+										show-score
+										:score-template="scope.row.gradeABC">
+									</el-rate>
+								</template>
+							</el-table-column>
+							<el-table-column
+								label="Score">
+								<template slot-scope="scope">
+									{{scope.row.score}} points
+								</template>
+							</el-table-column>
 						</el-table-column>
 					</el-table>
 				</el-tab-pane>
@@ -215,54 +223,3 @@ export default {
 	}
   };
 </script>
-
-<style>
-.menuCategory {
-	text-align: left;
-}
-
-.image {
-	width: 100%;
-	display: block;
-}
-
-.cardBody {
-	padding: 5px;
-	height: 100px;
-}
-
-.bottom {
-	margin-top: 13px;
-	line-height: 12px;
-}
-
-.clearfix:before,
-.clearfix:after {
-	display: table;
-	content: "";
-}
-
-.clearfix:after {
-	clear: both
-}
-
-.cardDescription {
-	font-size: 13px;
-	color: #999;
-	text-align: left;
-	margin-bottom: 15px;
-}
-
-.cardFoot {
-	padding: 5px;
-	float: bottom;
-}
-
-.prix {
-	color: green;
-}
-
-.button {
-	padding: 0;
-}
-</style>
