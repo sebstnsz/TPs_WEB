@@ -154,7 +154,7 @@ export default {
 		fermerPopUp(){
 			// dialogVisible = false
 			this.$emit('fermerPopUpChild', false);
-			this.activeName = 'first';
+			this.activeName = 'info';
 		},
 		onOpenPopup(){
 			this.getRestauDetail();

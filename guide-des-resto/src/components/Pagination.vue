@@ -23,7 +23,7 @@
 					:min="0"
 					:max="maxPage"
 					v-model="page"
-					@click="changerPage">
+					@change="changerPage">
 				</el-input-number>
 			</el-col>
 			<el-col>
