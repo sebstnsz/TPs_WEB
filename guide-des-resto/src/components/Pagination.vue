@@ -21,8 +21,9 @@
 				<el-input-number 
 					size="small"
 					:min="0"
-					:max="nbPagesMax"
-					v-model="page">
+					:max="maxPage"
+					v-model="page"
+					@click="changerPage">
 				</el-input-number>
 			</el-col>
 			<el-col>
@@ -31,24 +32,17 @@
 						icon="el-icon-arrow-right"
 						size="small"
 						v-on:click="pageSuivante"
-						v-bind:disabled="page>=nbPagesMax"
+						v-bind:disabled="page>=maxPage"
 						circle></el-button>
 					<el-button 
 						icon="el-icon-d-arrow-right"
 						size="small"
 						v-on:click="dernierePage"
-						v-bind:disabled="page>=nbPagesMax"
+						v-bind:disabled="page>=maxPage"
 						circle></el-button>
 				</el-button-group>
 			</el-col>
 		</el-row>
-		<!--<el-pagination
-			layout="prev, pager, next"
-			:total="1000"
-			:page-size="10"
-			background
-			small>
-		</el-pagination>-->
 	</div>
 </template>
 
@@ -58,37 +52,43 @@ export default {
 
 	data() {
 		return {
-			page: 0,
-			nbPagesMax: 10
+			page: 0
 		}
 	},
-	components: { 	// LOCAL COMPONENTS
+	props: {
+		maxPage: {
+			default: 0
+		}
 	},
 	methods: {
-
-	
+		premierePage(){
+			this.page = 0;
+			this.changerPage();
+		},
 		pagePrecedente(){
 			if(this.page > 0){
 				this.page--;
-				this.$emit('changePage', this.page);
+				this.changerPage();
 			}
+			else 
+				this.premierePage();
 		},
-
 		pageSuivante(){
-			if(this.page < this.nbPagesMax){
+			if(this.page < this.maxPage){
 				this.page++;
-				this.$emit('changePage', this.page);
+				this.changerPage();
 			}
+			else 
+				this.dernierePage();
 		},
-
-		premierePage(){
-			this.page = 0;
-			//this.getRestaurantsFromServer();
-		},
-
 		dernierePage(){
-			this.page = this.nbPagesMax;
-			//this.getRestaurantsFromServer();
+			this.page = this.maxPage;
+			this.changerPage();
+		},
+		changerPage(){
+			if(this.page === "")
+				this.page = 0;
+			this.$emit('changerPage', this.page);
 		}
 	}
 }

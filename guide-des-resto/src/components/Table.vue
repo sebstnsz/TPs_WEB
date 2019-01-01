@@ -8,7 +8,7 @@
 		</app-restau-detail>
 
 		<app-recherche 
-			v-on:rechercherRestaurant="getRestaurantsFromServer">
+			v-on:rechercherRestaurant="onChangeRecherche">
 		</app-recherche>
 
 		<el-table
@@ -24,8 +24,7 @@
 				label="Cuisine"
 				prop="cuisine">
 			</el-table-column>
-			<el-table-column
-				label="Actions">
+			<el-table-column>
 				<template slot-scope="scope">
 					<el-tooltip content="Détails" placement="top">
 						<el-button 
@@ -35,19 +34,14 @@
 							@click="ouvrirPopUp()">
 						</el-button>
 					</el-tooltip>
-					<!--<el-tooltip content="Supprimer" placement="top">
-						<el-button 
-							size="small"
-							icon="el-icon-close"
-							circle
-							@click="supprimerRestaurant(r)">
-						</el-button>
-					</el-tooltip>-->
 				</template>
 			</el-table-column>
 		</el-table>
 
-	   <app-pagination v-on:changePage="onChildClick"></app-pagination>
+		<app-pagination 
+			:maxPage="nbPagesMax"
+			v-on:changerPage="onChangePage">
+		</app-pagination>
 
 	</div>
 </template>
@@ -62,11 +56,17 @@ export default {
 
 	data() {
 		return {
+			page: 0,
+			pagesize: 10,
+			recherche: "",
+
 			restaurants: [],
+			nbRestaurantsMax: 0,
+			nbPagesMax: 0,
+
 			restaurantDetails: [],
-			openDialog :false,
-			nbRestaurantsMax : 0,
-			nbPagesMax:0,
+
+			openDialog: false
 		}
 	},
 	components: {   // LOCAL COMPONENTS
@@ -88,39 +88,40 @@ export default {
 		fermerPopUp(boolean){
 			this.openDialog = boolean;
 		},
-		supprimerRestaurant(r) {
-			console.log("Supprimer le restaurant");
-		},
 		handleCurrentChange(val) {
 			if(val !== null){
 				this.restaurantDetails = val;
 			}
+		},		
+		getRestaurantsFromServer(){
+			let url = "http://localhost:8080/api/restaurants?page="+this.page+"&pagesize="+this.pagesize;
+			if (this.recherche !== ""){
+				url += "&name="+this.recherche;
+			}
+			
+			fetch(url)
+			.then((responseJSON) => responseJSON.json())
+			.then((responseJS) => {
+				this.restaurants = responseJS.data;
+				this.nbRestaurantsMax = responseJS.count;
+				this.nbPagesMax = Math.floor(this.nbRestaurantsMax/this.pagesize);
+				if (this.nbRestaurantsMax%this.pagesize == 0)
+					this.nbPagesMax--;
+			});
 		},
-		onChildClick (value) {
-			console.log("nb :" + value);
-		},			
-		getRestaurantsFromServer(nomRestau){
-				let page = 0;
-				let pagesize = 10;
-				let url = "http://localhost:8080/api/restaurants?page="+page+"&pagesize="+pagesize;
-				
-				if (nomRestau !== "" && nomRestau !== null && nomRestau !== undefined){
-					url += "&name="+nomRestau;
-				}
-				
-				fetch(url)
-				.then((responseJSON) => responseJSON.json())
-				.then((responseJS) => {
-					this.restaurants = responseJS.data;
-					this.nbRestaurantsMax = responseJS.count;
-					this.nbPagesMax = Math.floor(this.nbRestaurantsMax/pagesize);
-					if (this.nbRestaurantsMax%pagesize == 0)
-						this.nbPagesMax--;
-				});
-			},
-}
- 
+
+		onChangePage(newPage){
+			this.page = newPage;
+			this.getRestaurantsFromServer();
+		},
+
+		onChangeRecherche(newRecherche){
+			this.recherche = newRecherche;
+			this.getRestaurantsFromServer();
+		}
+
 	}
+ }
 </script>
 
 <style>
