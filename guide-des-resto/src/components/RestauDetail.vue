@@ -3,7 +3,7 @@
 		<el-dialog
 			:title="restaurantSelected.name"
 			:visible.sync="dialogVisible"
-			width="60%"
+			width="1000px"
 			:before-close="fermerPopUp"
 			v-on:open="onOpenPopup">
 
@@ -57,7 +57,7 @@
 				<el-tab-pane name="menu">
 					<span slot="label"><i class="el-icon-tickets"></i> Menu</span>
 
-					<app-menu-restaurant :menuRestau="menu"></app-menu-restaurant>
+					<app-menu-restaurant :menuRestau="menu" v-on:closeDialogPayerSucces="fermerPopUp"></app-menu-restaurant>
 
 				</el-tab-pane>
 

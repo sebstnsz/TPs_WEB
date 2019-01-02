@@ -15,7 +15,9 @@
 			:data="restaurants"
 			border
 			@current-change="handleCurrentChange"
-			stripe>
+			stripe
+			 size="small" 
+			>
 			<el-table-column
 				label="Nom"
 				prop="name">
@@ -116,6 +118,7 @@ export default {
 		},
 
 		onChangeRecherche(newRecherche){
+			this.page = 0;
 			this.recherche = newRecherche;
 			this.getRestaurantsFromServer();
 		}
