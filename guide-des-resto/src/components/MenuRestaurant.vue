@@ -83,7 +83,8 @@ export default {
 	data() {
 		return {
 			activeName: "",
-			commande : []
+			commande : [],
+			nomRestaurantCommande : "",
 		}
 	},
 	props: {
@@ -93,23 +94,28 @@ export default {
 				plats: [], 
 				desserts: []
 			} 
-		}
+		},
+		nomRestaurant :"",
 	},
 	components: {
 		'app-entree-menu': MenuEntree,
 		'app-plat-menu': MenuPlat,
 		'app-dessert-menu': MenuDessert
 	},
+	updated(){
+		if(this.nomRestaurant !== this.nomRestaurantCommande){
+			this.commande = [];
+			this.nomRestaurantCommande = this.nomRestaurant;
+		}
+	},
 	methods : {
 		ajoutDansLaCommande(objet){
+			this.nomRestaurantCommande = this.nomRestaurant;
 			if(this.getPlatCommande().includes(objet)){
 				this.commande[this.getPlatCommande().indexOf(objet)].quant++;
 			}else{
 				this.commande.push({obj:objet,quant:1});
 			}
-			
-
-
 		},
 		getPlatCommande(){
 			let res = [];
@@ -133,6 +139,7 @@ export default {
 			return res;
 		},
 		payerLaCommande(){
+			this.commande = [];
 			this.$emit('closeDialogPayerSucces', false);
 		}
 	}

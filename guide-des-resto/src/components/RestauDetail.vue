@@ -57,8 +57,7 @@
 				<el-tab-pane name="menu">
 					<span slot="label"><i class="el-icon-tickets"></i> Menu</span>
 
-					<app-menu-restaurant :menuRestau="menu" v-on:closeDialogPayerSucces="fermerPopUp"></app-menu-restaurant>
-
+					<app-menu-restaurant :menuRestau="menu" v-on:closeDialogPayerSucces="fermerPopUp" :nomRestaurant="restaurantSelected.name"></app-menu-restaurant>
 				</el-tab-pane>
 
 			</el-tabs>
