@@ -7,13 +7,13 @@
 						icon="el-icon-d-arrow-left"
 						size="small"
 						v-on:click="premierePage"
-						v-bind:disabled="page<=0"
+						v-bind:disabled="nPage<=0"
 						circle></el-button>
 					<el-button 
 						icon="el-icon-arrow-left"
 						size="small"
 						v-on:click="pagePrecedente"
-						v-bind:disabled="page<=0"
+						v-bind:disabled="nPage<=0"
 						circle></el-button>
 				</el-button-group>
 			</el-col>
@@ -22,7 +22,7 @@
 					size="small"
 					:min="0"
 					:max="maxPage"
-					v-model="page"
+					v-model="nPage"
 					@change="changerPage">
 				</el-input-number>
 			</el-col>
@@ -32,13 +32,13 @@
 						icon="el-icon-arrow-right"
 						size="small"
 						v-on:click="pageSuivante"
-						v-bind:disabled="page>=maxPage"
+						v-bind:disabled="nPage>=maxPage"
 						circle></el-button>
 					<el-button 
 						icon="el-icon-d-arrow-right"
 						size="small"
 						v-on:click="dernierePage"
-						v-bind:disabled="page>=maxPage"
+						v-bind:disabled="nPage>=maxPage"
 						circle></el-button>
 				</el-button-group>
 			</el-col>
@@ -52,43 +52,45 @@ export default {
 
 	data() {
 		return {
-			page: 0
 		}
 	},
 	props: {
 		maxPage: {
 			default: 0
+		},
+		nPage:{
+			default:0
 		}
 	},
 	methods: {
 		premierePage(){
-			this.page = 0;
+			this.nPage = 0;
 			this.changerPage();
 		},
 		pagePrecedente(){
-			if(this.page > 0){
-				this.page--;
+			if(this.nPage > 0){
+				this.nPage--;
 				this.changerPage();
 			}
 			else 
 				this.premierePage();
 		},
 		pageSuivante(){
-			if(this.page < this.maxPage){
-				this.page++;
+			if(this.nPage < this.maxPage){
+				this.nPage++;
 				this.changerPage();
 			}
 			else 
 				this.dernierePage();
 		},
 		dernierePage(){
-			this.page = this.maxPage;
+			this.nPage = this.maxPage;
 			this.changerPage();
 		},
 		changerPage(){
-			if(this.page === "")
-				this.page = 0;
-			this.$emit('changerPage', this.page);
+			if(this.nPage === "")
+				this.nPage = 0;
+			this.$emit('changerPage', this.nPage);
 		}
 	}
 }

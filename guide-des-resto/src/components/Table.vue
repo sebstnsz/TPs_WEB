@@ -42,6 +42,7 @@
 
 		<app-pagination 
 			:maxPage="nbPagesMax"
+			:nPage="page"
 			v-on:changerPage="onChangePage">
 		</app-pagination>
 
