@@ -3,16 +3,16 @@
 
 Pour tester : 
 
-- Cloner le repo : git clone
-- Se positionner sur la branche RENDU_2 : git checkout RENDU_2
+- Cloner le repo
+- Se positionner sur la branche RENDU_2 : **git checkout RENDU_2**
 
 Dans un autre terminal :
-- Lancer mongo : mongod
+- Lancer mongo : **mongod**
 
 Dans un autre Terminal :
-- Lancer le serveur du TP :  node CrudWithMongo.js
+- Lancer le serveur du TP :  **node CrudWithMongo.js**
 
 Dans le terminal où le repo a été cloné : 
-- Se positioner dans le dossier "guide-des-resto" : cd guide-des-resto
-- Lancer npm install
-- Lancer npm run dev
+- Se positioner dans le dossier "guide-des-resto" : **cd guide-des-resto**
+- Lancer **npm install**
+- Lancer **npm run dev**
